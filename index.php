@@ -47,22 +47,10 @@ $apps = json_decode(file_get_contents($json_file), true);
 <head>
     <meta charset="UTF-8">
     <title>SRV-RR01</title>
-    <link rel="icon" type="image/png" href="images/RMLogo.png">
+    <link rel="icon" type="image/png" href="img/RMLogo.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body { font-family: 'Segoe UI', Tahoma; background: #f8f9fa; color: #212529; }
-        .dark-mode { background: #121212; color: #e0e0e0; }
-        .custom-header { background: #1a1a1a; padding: 30px 0; color: white; }
-        .logo-img { max-width: 225px; }
-        .dark-mode .custom-header { background: #1f1f1f; }
-        .dark-mode .card { background: #1e1e1e; color: #e0e0e0; border: 1px solid #333; }
-        .mode-toggle, .delete-btn { position: absolute; }
-        .mode-toggle { top: 20px; right: 20px; }
-        .delete-btn { top: 5px; right: 5px; }
-        .edit-btn { top: 5px; right: 48px; position: absolute; }
-        .alert-box { position: fixed; top: 10px; right: 20px; z-index: 9999; min-width: 200px; }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <header class="custom-header">
@@ -74,7 +62,7 @@ $apps = json_decode(file_get_contents($json_file), true);
                 <p>by Rangel</p>
             </div>
             <div class="col-md-4 text-md-end text-center">
-                <img src="images/RMLogo.png" alt="Logo RM Technologies" class="img-fluid logo-img">
+                <img src="img/RMLogo.png" alt="Logo RM Technologies" class="img-fluid logo-img">
             </div>
         </div>
     </div>
@@ -164,110 +152,6 @@ $apps = json_decode(file_get_contents($json_file), true);
 <button id="DarkModeBtn" class="btn btn-dark position-fixed" style="bottom: 20px; right: 20px;">💡</button>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    const alertBox = document.getElementById('alertBox');
-    const addBtn = document.getElementById('addServiceBtn');
-    const saveBtn = document.getElementById('saveBtn');
-    const editBtn = document.getElementById('editToggleBtn');
-    const darkModeBtn = document.getElementById('DarkModeBtn');
-    const editModal = new bootstrap.Modal(document.getElementById('editServiceModal'));
-    const editTitle = document.getElementById('editTitle');
-    const editDesc = document.getElementById('editDesc');
-    const editURL = document.getElementById('editURL');
-    let currentCard = null;
-    let editMode = false;
-
-    darkModeBtn.onclick = toggleDarkMode;
-
-    function toggleDarkMode() {
-        document.body.classList.toggle('dark-mode');
-        localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-    }
-
-    window.onload = () => {
-        if (localStorage.getItem('darkMode') === 'true') {
-            document.body.classList.add('dark-mode');
-        }
-    }
-
-    function showAlert(message, success = true) {
-        alertBox.className = `alert alert-${success ? 'success' : 'danger'} alert-box`;
-        alertBox.innerText = message;
-        alertBox.style.display = 'block';
-        setTimeout(() => alertBox.style.display = 'none', 3000);
-    }
-
-    editBtn.onclick = () => {
-        editMode = !editMode;
-        addBtn.classList.toggle('d-none', !editMode);
-        saveBtn.classList.toggle('d-none', !editMode);
-
-        document.querySelectorAll('.card').forEach(card => {
-            card.style.position = 'relative';
-            card.querySelector('.delete-btn')?.remove();
-            card.querySelector('.edit-card-btn')?.remove();
-
-            if (editMode) {
-                const del = document.createElement('button');
-                del.className = 'btn btn-sm btn-danger delete-btn';
-                del.innerText = '🗑️';
-                del.onclick = () => card.closest('.col').remove();
-                card.appendChild(del);
-
-                const edit = document.createElement('button');
-                edit.className = 'btn btn-sm btn-warning edit-btn edit-card-btn';
-                edit.innerText = '✏️';
-                edit.onclick = () => {
-                    currentCard = card;
-                    editTitle.value = card.querySelector('.card-title').innerText;
-                    editDesc.value = card.querySelector('.card-text').innerText;
-                    editURL.value = card.querySelector('a').href;
-                    editModal.show();
-                };
-                card.appendChild(edit);
-            }
-        });
-    };
-
-    document.getElementById('saveEditBtn').onclick = () => {
-        if (currentCard) {
-            currentCard.querySelector('.card-title').innerText = editTitle.value;
-            currentCard.querySelector('.card-text').innerText = editDesc.value;
-            currentCard.querySelector('a').href = editURL.value;
-            editModal.hide();
-        }
-    };
-
-    addBtn.onclick = () => new bootstrap.Modal('#addServiceModal').show();
-
-    document.getElementById('addServiceForm').onsubmit = e => {
-        e.preventDefault();
-        const title = serviceTitle.value.trim();
-        const desc  = serviceDesc.value.trim();
-        const url   = serviceURL.value.trim();
-
-        fetch('', {
-            method: 'POST',
-            body: new URLSearchParams({ title, desc, url })
-        }).then(() => location.reload());
-    }
-
-    saveBtn.onclick = () => {
-        const apps = [...document.querySelectorAll('#appContainer .card')].map(card => ({
-            title: card.querySelector('.card-title').innerText.trim(),
-            desc:  card.querySelector('.card-text').innerText.trim(),
-            url:   card.querySelector('a').href.trim()
-        }));
-
-        fetch('', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ overwrite: true, apps })
-        })
-        .then(res => res.json())
-        .then(r => showAlert(r.success ? 'Alterações salvas com sucesso!' : 'Erro ao salvar alterações!', r.success))
-        .catch(() => showAlert('Erro de conexão ao salvar!', false));
-    }
-</script>
+<script src="js/script.js"></script>
 </body>
 </html>

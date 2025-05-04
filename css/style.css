@@ -1,0 +1,11 @@
+body { font-family: 'Segoe UI', Tahoma; background: #f8f9fa; color: #212529; }
+.dark-mode { background: #121212; color: #e0e0e0; }
+.custom-header { background: #1a1a1a; padding: 30px 0; color: white; }
+.logo-img { max-width: 225px; }
+.dark-mode .custom-header { background: #1f1f1f; }
+.dark-mode .card { background: #1e1e1e; color: #e0e0e0; border: 1px solid #333; }
+.mode-toggle, .delete-btn { position: absolute; }
+.mode-toggle { top: 20px; right: 20px; }
+.delete-btn { top: 5px; right: 5px; }
+.edit-btn { top: 5px; right: 48px; position: absolute; }
+.alert-box { position: fixed; top: 10px; right: 20px; z-index: 9999; min-width: 200px; }

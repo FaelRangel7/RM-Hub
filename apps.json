@@ -33,5 +33,10 @@
         "title": "Zabbix",
         "desc": "Monitoramento de infraestrutura",
         "url": "http:\/\/192.168.100.240:8081"
+    },
+    {
+        "title": "Fivem",
+        "desc": "Conectar ao servidor fivem",
+        "url": "fivem:\/\/connect\/192.168.100.240:30120"
     }
 ]
